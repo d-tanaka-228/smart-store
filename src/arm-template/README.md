@@ -94,18 +94,21 @@ Azure CLI が準備できましたら、下記を参考にリソースをデプ�
 ### PowerShell によるデプロイ
 
 ```ps1
-$RESOURCE_GROUP="<resource group name>"
+$RESOURCE_GROUP="store-tanaka"
 $LOCATION="japaneast"
 
-$PREFIX="<prefix string within 2 characters>"
-$STOCK_SERVICE_SQL_SERVER_ADMIN_PASSWORD="<sql server admin password>"
+$PREFIX="la"
+$STOCK_SERVICE_SQL_SERVER_ADMIN_PASSWORD="Sm@rtstore"
 
-$TEMPLATE_URL="https://raw.githubusercontent.com/intelligent-retail/smart-store/master/src/arm-template"
+$TEMPLATE_URL="https://raw.githubusercontent.com/d-tanaka-228/smart-store/master/src/arm-template"
 
 # リソースグループを作成する
-az group create `
-  --name ${RESOURCE_GROUP} `
-  --location ${LOCATION}
+# az group create `
+#   --name ${RESOURCE_GROUP} `
+#   --location ${LOCATION}
+
+# リソースグループを確認する
+az group show --name ${RESOURCE_GROUP}
 
 # 作成したリソースグループの中に、リソースをデプロイする
 az group deployment create `
@@ -114,7 +117,10 @@ az group deployment create `
   --parameters ${TEMPLATE_URL}/parameters.json `
   --parameters `
     prefix=${PREFIX} `
-    stockServiceSqlServerAdminPassword=${STOCK_SERVICE_SQL_SERVER_ADMIN_PASSWORD}
+    stockServiceSqlServerAdminPassword=${STOCK_SERVICE_SQL_SERVER_ADMIN_PASSWORD} `
+    boxIotHubSku="S1" `
+    itemServiceAppServicePlanSkuName="S1" `
+    stockServiceAppServicePlanSkuName="S1"
 ```
 
 ### bash によるデプロイ
